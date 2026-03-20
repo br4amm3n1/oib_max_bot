@@ -6,3 +6,5 @@ data/auth.sqlite3
 data/check_info_sites.sqlite3
 data/logs.log
 data/ds_info.csv
+github_token.txt
+node_modules/
