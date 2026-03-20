@@ -1,0 +1,35 @@
+{
+  "infarktanetNET": {
+    "url": "https://infarkta.net/",
+    "css-selector": ["body footer div div.row.info_footer div.col-md-4.col-sm-6.logobut div img",
+      "<img width=\"350\" height=\"auto\" src=\"/images/tnimc_newlogo.png\">"]
+  },
+  "medgenetics": {
+    "url": "https://www.medgenetics.ru/",
+    "css-selector": ["body section.d-flex.align-items-center.flex-row.sectionmain div.container.blackT.mw900 h1", "<h1 class=\"pb8\">НИИ <br>медицинской <br>генетики</h1>"]
+  },
+  "mental-health": {
+    "url": "http://mental-health.ru/",
+    "css-selector": ["body header div a span",
+      "<span class=\"site-title\" title=\"НИИ психического здоровья\">НИИ психического здоровья</span>"]
+  },
+  "spvin": {
+    "url": "https://svpin.org/",
+    "css-selector": ["body header div a span",
+      "<span class=\"site-title\" title=\"Сибирский вестник психиатрии и наркологии\">Сибирский вестник психиатрии и наркологии</span>"]
+  },
+  "siboncoj": {
+    "url": "https://www.siboncoj.ru/",
+    "css-selector": ["#pblkChief", "<p class=\"blockTitle\" id=\"pblkChief\">Главный редактор</p>"]
+  },
+  "tnimc": {
+    "url": "https://tnimc.ru/",
+    "css-selector": ["body > div.b-header > div.b-header-line.b-header-line_theme-2 > div > div.b-header-line-container__logo > div > a:nth-child(2) > div > svg:nth-child(2)",
+      "<svg style=\"width:277px;height:90px\"><use xlink:href=\"#logo_name\"></use></svg>"]
+  },
+  "oncotnimc": {
+    "url": "https://onco.tnimc.ru/",
+    "css-selector": ["body div.b-page-main-about__title",
+      "<div class=\"b-page-main-about__title\">\n\t\t\t\t\t\t\tНаучно-исследовательский<br> институт онкологии\t\t\t\t\t\t\t\n\t\t\t\t\t\t</div>"]
+  }
+}

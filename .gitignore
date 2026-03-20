@@ -1,0 +1,8 @@
+sql_query.js
+.env
+package-lock.json
+package.json
+data/auth.sqlite3
+data/check_info_sites.sqlite3
+data/logs.log
+data/ds_info.csv
