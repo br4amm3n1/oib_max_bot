@@ -24,7 +24,7 @@ class CheckInfoSitesDbManager extends BaseDBManager {
             LIMIT 1
         `;
 
-        const row = this.getQueryDB(sql_query, [time]);
+        const row = await this.getQueryDB(sql_query, [time]);
 
         return row;
     }
