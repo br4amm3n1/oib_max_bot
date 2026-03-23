@@ -106,6 +106,8 @@ async function checkSites() {
             checkInfoSitesDbManager.close();
         }
     }
+
+    await sendNotificationsForSitesChecking();
 }
 
 async function sendNotificationsForSitesChecking() {
