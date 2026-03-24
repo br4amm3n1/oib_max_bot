@@ -10,7 +10,7 @@ import { checkExpiryDateOfDs } from './jobs/DS_check_expiry_date_job.js';
 
 
 scheduler.runRepeating(checkBirthdays, 86400, '09:00');
-scheduler.runRepeating(checkEmailJob, 86400, '07:00');
+scheduler.runRepeating(checkEmailJob, 86400, '07:05');
 scheduler.runRepeating(checkSites, 14400, 'now');
 // scheduler.runRepeating(sendNotificationsForSitesChecking, 14520, 45);
 scheduler.runRepeating(checkExpiryDateOfDs, 86400, '09:00');
