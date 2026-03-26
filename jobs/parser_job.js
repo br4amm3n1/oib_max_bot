@@ -116,7 +116,7 @@ async function sendNotificationsForSitesChecking() {
     
     let queryResult;
 
-    await new Promise(resolve => setTimeout(resolve, 45000));
+    await new Promise(resolve => setTimeout(resolve, 10000));
 
     try {
         queryResult = await checkInfoSitesDbManager.getCheckInfo(timeForDb);
