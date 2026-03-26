@@ -15,13 +15,11 @@ const getRandomUserAgent = () => {
 async function checkSites() {
     const urls = await fromJson('./data/urls.json');
     const failedChecks = [];
-    let text = '';
-    let checkResult = true;
-
-    for (const [name, siteData] of Object.entries(urls)) {
+    
+    const checkPromises = Object.entries(urls).map(async ([name, siteData]) => {
         const url = siteData.url;
-
-        try {     
+        
+        try {
             const headers = {
                 'Accept': 'text/html',
                 'User-Agent': getRandomUserAgent()
@@ -40,21 +38,17 @@ async function checkSites() {
             
             const elements = $(selector);
             
-            
-            if (elements.length > 0) {
-                const elementHtml = elements.first().toString();
-                if (elementHtml !== expectedValue) {
-                    failedChecks.push(`(${url}) -> Элемент не найден;`);
-                }
-            } else {
-                failedChecks.push(`(${url}) -> Элемент не найден;`);
+            if (elements.length === 0 || elements.first().toString() !== expectedValue) {
+                return `(${url}) -> Элемент не найден;`;
             }
-
+            
+            return null;
+            
         } catch (error) {
             if (error.response) {
                 const statusCode = error.response.status;
                 const statusText = error.response.statusText || 'Unknown';
-                failedChecks.push(`${url} -> HTTP ${statusCode} (${statusText}): ${error.message};`);
+                return `${url} -> HTTP ${statusCode} (${statusText}): ${error.message};`;
             } else if (error.code) {
                 let errorDescription = error.message;
                 
@@ -77,32 +71,38 @@ async function checkSites() {
                         break;
                 }
                 
-                failedChecks.push(`(${url}) -> [${error.code}] ${errorDescription};`);
+                return `(${url}) -> [${error.code}] ${errorDescription};`;
             } else {
-                failedChecks.push(`(${url}) -> Неизвестная ошибка: ${error.message};`);
+                return `(${url}) -> Неизвестная ошибка: ${error.message};`;
             }
         }
+    });
+    
+    const results = await Promise.all(checkPromises);
+    
+    for (const result of results) {
+        if (result !== null) {
+            failedChecks.push(result);
+        }
     }
-
+    
     const timeNow = DateTime.now();
-
+    let text = '';
+    let checkResult = true;
+    
     if (failedChecks.length === 0) {
         text = 'Веб-ресурсы успешно прошли проверки';
     } else {
         checkResult = false;
         text = failedChecks.join('');
     }
-
+    
     try {
         await checkInfoSitesDbManager.connect();
-
-        await checkInfoSitesDbManager.setCheckInfo(checkResult ? 1: 0, text, timeNow.toFormat('yyyy-MM-dd HH:mm:ss'));
-
+        await checkInfoSitesDbManager.setCheckInfo(checkResult ? 1 : 0, text, timeNow.toFormat('yyyy-MM-dd HH:mm:ss'));
         await sendNotificationsForSitesChecking();
-
     } catch (error) {
         logWarning(error.toString());
-
     } finally {
         if (checkInfoSitesDbManager.db) {
             checkInfoSitesDbManager.close();
