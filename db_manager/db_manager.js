@@ -9,7 +9,7 @@ class BaseDBManager {
         this.db = null;
     }
 
-    async connect() {
+    connect() {
         return new Promise((resolve, reject) => {
             this.db = new verbose.Database(this.dbPath, (err) => {
                 if (err) {
@@ -23,7 +23,7 @@ class BaseDBManager {
         });
     }
 
-    async close() {
+    close() {
         return new Promise((resolve, reject) => {
             if (!this.db) {
                 resolve();
@@ -43,7 +43,7 @@ class BaseDBManager {
         });
     }
 
-    async runQuery(sql, params = []) {
+    runQuery(sql, params = []) {
         return new Promise((resolve, reject) => {
             this.db.run(sql, params, function(err) {
                 if (err) {
@@ -55,7 +55,7 @@ class BaseDBManager {
         });
     }
 
-    async getQueryDB(sql, params = []) {
+    getQueryDB(sql, params = []) {
         return new Promise((resolve, reject) => {
             this.db.get(sql, params, (err, row) => {
                 if (err) {
@@ -67,7 +67,7 @@ class BaseDBManager {
         });
     }
 
-    async allQuery(sql, params = []) {
+    allQuery(sql, params = []) {
         return new Promise((resolve, reject) => {
             this.db.all(sql, params, (err, rows) => {
                 if (err) {
