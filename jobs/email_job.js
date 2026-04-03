@@ -45,7 +45,7 @@ export const checkEmailJob = async () => {
                             return;
                         }
 
-                        const fetch = imapConnection.fetch(results, { bodies: '', markSeen: true });
+                        const fetch = imapConnection.fetch(results, { bodies: '' }); //, markSeen: true });
 
                         fetch.on('message', (msg, seqno) => {
                             msg.on('body', (stream, info) => {
