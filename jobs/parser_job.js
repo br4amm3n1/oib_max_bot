@@ -111,12 +111,12 @@ async function checkSites() {
 }
 
 async function sendNotificationsForSitesChecking() {
+    await new Promise(resolve => setTimeout(resolve, 15000));
+
     const timeDayAgo = DateTime.now().minus({ hours: 4 });
     const timeForDb = formatDateTimeForDb(timeDayAgo);
     
     let queryResult;
-
-    await new Promise(resolve => setTimeout(resolve, 10000));
 
     try {
         queryResult = await checkInfoSitesDbManager.getCheckInfo(timeForDb);
