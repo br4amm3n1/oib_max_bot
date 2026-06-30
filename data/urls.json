@@ -24,8 +24,8 @@
   },
   "tnimc": {
     "url": "https://tnimc.ru/",
-    "css-selector": ["body > div.b-header > div.b-header-line.b-header-line_theme-2 > div > div.b-header-line-container__logo > div > a:nth-child(2) > div > svg:nth-child(2)",
-      "<svg style=\"width:277px;height:90px\"><use xlink:href=\"#logo_name\"></use></svg>"]
+    "css-selector": ["#header > div > div.header__foot > a > picture > img",
+      "<img alt=\"Логотип\" class=\"lazy\" data-src=\"/upload/constructor/c23/ge99yey78vl9ygdmdud7ytxv9m5fmhvi.svg\" src=\"/local/templates/full/images/gap.jpg\"/>"]
   },
   "oncotnimc": {
     "url": "https://onco.tnimc.ru/",
