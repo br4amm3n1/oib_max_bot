@@ -6,3 +6,4 @@ data/logs.log
 data/ds_info.csv
 github_token.txt
 node_modules/
+check_elements.js
