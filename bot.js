@@ -163,13 +163,14 @@ bot.on('message_created', async (ctx) => {
                     await ctx.reply(
                         "<b>Вы успешно подписаны на уведомления о днях рождений коллег!</b>",
                         {format: "html"}
-                    );
+                    );            
                 } else {
                     await ctx.reply(
                         "Произошла непредвиденная ошибка. Попробуйте подписаться еще раз."
                     );
                 };
                 
+                userSessions.delete(userId);
                 break;
 
             default:
