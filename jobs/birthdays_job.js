@@ -10,16 +10,10 @@ export const subscribeBtn = async (ctx) => {
 
     if (ctx.authorizationContext?.isAuthorized || false) {
         try {
-            await userDBManager.connect();
             dateOfBirth = await userDBManager.getDateOfBirth(userId);
 
         } catch (err) {
             console.log(err.message);
-
-        } finally {
-            if (userDBManager.db) {
-                userDBManager.close();
-            };
         }
 
         if (dateOfBirth) {
@@ -60,8 +54,6 @@ export const unsubscribeBtn = async (ctx) => {
 
     if (ctx.authorizationContext?.isAuthorized || false) {
         try {
-            await userDBManager.connect();
-
             const dateOfBirth = await userDBManager.getDateOfBirth(userId);
 
             if (dateOfBirth) {
@@ -84,11 +76,6 @@ export const unsubscribeBtn = async (ctx) => {
 
         } catch (err) {
             console.error(err.message);
-
-        } finally {
-            if (userDBManager.db) {
-                userDBManager.close();
-            }
         }
 
     } else {
@@ -134,7 +121,6 @@ export function compareDates(userData) {
 
 export const checkBirthdays = async () => {   
     try {
-        await userDBManager.connect();
         const users = await userDBManager.getAllUsers();
 
         for (const user of users) {
@@ -168,13 +154,8 @@ export const checkBirthdays = async () => {
             } 
         };
 
-    } catch (err) {
-        console.error(err);
+    } catch (error) {
+        console.error(error);
         logWarning(error.toString());
-
-    } finally {
-        if (userDBManager.db) {
-            userDBManager.close();
-        };
     }
 }

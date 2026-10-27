@@ -10,6 +10,8 @@ class BaseDBManager {
     }
 
     connect() {
+        if (this.db) return Promise.resolve(this.db);
+        
         return new Promise((resolve, reject) => {
             this.db = new verbose.Database(this.dbPath, (err) => {
                 if (err) {

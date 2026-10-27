@@ -98,15 +98,10 @@ async function checkSites() {
     }
     
     try {
-        await checkInfoSitesDbManager.connect();
         await checkInfoSitesDbManager.setCheckInfo(checkResult ? 1 : 0, text, timeNow.toFormat('yyyy-MM-dd HH:mm:ss'));
         await sendNotificationsForSitesChecking();
     } catch (error) {
         logWarning(error.toString());
-    } finally {
-        if (checkInfoSitesDbManager.db) {
-            checkInfoSitesDbManager.close();
-        }
     }
 }
 
