@@ -4,10 +4,22 @@ import { subscribeBtn, unsubscribeBtn, checkBirthdays } from './jobs/birthdays_j
 import { checkEmailJob } from './jobs/email_job.js';
 import { checkSites, sendNotificationsForSitesChecking } from './jobs/parser_job.js';
 import userDBManager from './db_manager/users_db_manager.js';
+import checkInfoSitesDbManager from './db_manager/check_info_sites_db_manager.js';
 import { camelCase } from './shared/utils.js'
 import scheduler from './scheduler/scheduler.js';
 import { checkExpiryDateOfDs } from './jobs/DS_check_expiry_date_job.js';
 
+
+userDBManager.connect().catch(err => console.error("Ошибка БД пользователей:", err));
+checkInfoSitesDbManager.connect().catch(err => console.error("Ошибка БД проверок сайтов:", err));
+
+const gracefulShutdown = async () => {
+    console.log('Завершение работы, закрытие БД...');
+    await userDBManager.close();
+    await checkInfoSitesDbManager.close();
+    process.exit(0);
+};
+process.on('SIGTERM', gracefulShutdown);
 
 scheduler.runRepeating(checkBirthdays, 86400, '09:00');
 scheduler.runRepeating(checkEmailJob, 86400, '07:01');
@@ -117,17 +129,11 @@ bot.on('message_created', async (ctx) => {
                 userSession.step = STEPS_SUBSCRIPTION.AWAITING_DATE_OF_BIRTH;
 
                 try {
-                    await userDBManager.connect();
-                    
                     await userDBManager.setWorkPosition(userId, userSession.data.workPosition);
 
                 } catch (error) {
                     console.error("Произошла ошибка.", error.message);
 
-                } finally {
-                    if (userDBManager.db) {
-                        await userDBManager.close();
-                    };
                 }
                 
                 await ctx.reply("Введите свою дату рождения:");
@@ -139,17 +145,12 @@ bot.on('message_created', async (ctx) => {
                 let user;
 
                 try {
-                    await userDBManager.connect();
                     user = await userDBManager.getUserByMaxId(userId);
                     await userDBManager.setDateOfBirth(userId, userSession.data.dateOfBirth);
 
                 } catch (error) {
                     console.error("Произошла ошибка.", error.message);
 
-                } finally {
-                    if (userDBManager.db) {
-                        await userDBManager.close();
-                    };
                 }
 
                 if (user) {
@@ -184,8 +185,6 @@ bot.on('message_created', async (ctx) => {
                 let isExists = false;
 
                 try {
-                    await userDBManager.connect();
-
                     isExists = await userDBManager.checkUserExists(
                         camelCase(ctx?.user?.last_name), 
                         camelCase(ctx?.user?.first_name), 
@@ -195,10 +194,6 @@ bot.on('message_created', async (ctx) => {
                 } catch (error) {
                     console.error(error.message);
 
-                } finally {
-                    if (userDBManager.db) {
-                        await userDBManager.close();
-                    }
                 }
 
                 if (isExists) {
@@ -218,8 +213,6 @@ bot.on('message_created', async (ctx) => {
                 let codeIsValid = false;
 
                 try {
-                    await userDBManager.connect();
-
                     codeIsValid = await userDBManager.verifyUserCode(
                         camelCase(ctx?.user?.last_name), 
                         camelCase(ctx?.user?.first_name), 
@@ -231,10 +224,6 @@ bot.on('message_created', async (ctx) => {
 
                 } catch (error) {
                     console.error(error.message);
-                } finally {
-                    if (userDBManager.db) {
-                        await userDBManager.close();
-                    };
                 }
 
                 if (codeIsValid) {
